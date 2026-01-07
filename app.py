@@ -16,15 +16,23 @@ def main():
             "【歯磨き】歯磨き中に浮かんだ思考は？",
             "【歯磨き】歯磨き中に聞こえた環境音は？"
         ]
+    
+    if "current_q" not in st.session_state:
+        st.session_state.current_q = None
 
     # トレーニングセクション
     st.subheader("トレーニング")
     if st.button("出題する", type="primary"):
         if st.session_state.questions:
-            selected_question = random.choice(st.session_state.questions)
-            st.markdown(f"### Q. {selected_question}")
+            st.session_state.current_q = random.choice(st.session_state.questions)
         else:
             st.warning("質問リストが空です。下の編集エリアから追加してください。")
+            st.session_state.current_q = None
+
+    if st.session_state.current_q:
+        st.markdown(f"### Q. {st.session_state.current_q}")
+        # 回答入力欄 (HTMLのテキストボックス形式に近い Streamlit の text_input)
+        st.text_input("回答を入力してください", key="answer_input")
     else:
         st.info("ボタンを押すと、質問がランダムに表示されます。")
 
@@ -33,7 +41,6 @@ def main():
     # 編集セクション
     st.subheader("質問文の編集")
     
-    # テキストエリアで一括編集できるようにする
     current_questions_text = "\n".join(st.session_state.questions)
     new_questions_text = st.text_area(
         "質問文を1行に1つずつ入力してください",
@@ -42,7 +49,6 @@ def main():
     )
 
     if st.button("保存する"):
-        # 空行を除去してリストに変換
         st.session_state.questions = [
             line.strip() for line in new_questions_text.split("\n") if line.strip()
         ]

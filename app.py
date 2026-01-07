@@ -31,8 +31,15 @@ def main():
 
     if st.session_state.current_q:
         st.markdown(f"### Q. {st.session_state.current_q}")
-        # 回答入力欄 (HTMLのテキストボックス形式に近い Streamlit の text_input)
+        # 回答入力欄
         st.text_input("回答を入力してください", key="answer_input")
+        
+        # 記憶の状態を選択（チェックボックス形式のUIとして radio を使用、または個別のcheckbox）
+        # ご要望の「チェックボックス形式で3択」をラジオボタンで実装（1つしか選べないため）
+        st.write("記憶の状態:")
+        st.checkbox("はっきり覚えている", key="state_clear")
+        st.checkbox("曖昧さがある", key="state_vague")
+        st.checkbox("まったく思い出せない", key="state_none")
     else:
         st.info("ボタンを押すと、質問がランダムに表示されます。")
 

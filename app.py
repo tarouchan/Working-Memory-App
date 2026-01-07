@@ -2,7 +2,7 @@ import streamlit as st
 import random
 
 def main():
-    st.title("ワーキングメモリ トレーニング（試作版）")
+    st.title("ワーキングメモリトレーニングApp (試作版)")
 
     # セッション状態の初期化
     if "questions" not in st.session_state:
@@ -34,8 +34,7 @@ def main():
         # 回答入力欄
         st.text_input("回答を入力してください", key="answer_input")
         
-        # 記憶の状態を選択（チェックボックス形式のUIとして radio を使用、または個別のcheckbox）
-        # ご要望の「チェックボックス形式で3択」をラジオボタンで実装（1つしか選べないため）
+        # 記憶の状態を選択
         st.write("記憶の状態:")
         st.checkbox("はっきり覚えている", key="state_clear")
         st.checkbox("曖昧さがある", key="state_vague")

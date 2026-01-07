@@ -47,19 +47,25 @@ def main():
     # 編集セクション
     st.subheader("質問文の編集")
     
+    # セッション状態から現在のリストを取得して表示
     current_questions_text = "\n".join(st.session_state.questions)
-    new_questions_text = st.text_area(
-        "質問文を1行に1つずつ入力してください",
-        value=current_questions_text,
-        height=300
-    )
-
-    if st.button("保存する"):
-        st.session_state.questions = [
-            line.strip() for line in new_questions_text.split("\n") if line.strip()
-        ]
-        st.success("質問リストを保存しました！")
-        st.rerun()
+    
+    # フォームを使用して入力内容を管理
+    with st.form("edit_form"):
+        new_questions_text = st.text_area(
+            "質問文を1行に1つずつ入力してください",
+            value=current_questions_text,
+            height=300
+        )
+        submit_button = st.form_submit_button("保存する")
+        
+        if submit_button:
+            # 入力されたテキストをリストに変換してセッション状態に保存
+            st.session_state.questions = [
+                line.strip() for line in new_questions_text.split("\n") if line.strip()
+            ]
+            st.success("質問リストを保存しました！")
+            st.rerun()
 
 if __name__ == "__main__":
     main()
